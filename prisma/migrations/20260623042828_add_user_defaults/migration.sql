@@ -1,0 +1,3 @@
+-- AlterTable
+ALTER TABLE "profiles" ALTER COLUMN "activeStatus" SET DEFAULT 'ACTIVE',
+ALTER COLUMN "role" SET DEFAULT 'USER';
