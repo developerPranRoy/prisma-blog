@@ -2,9 +2,7 @@
 import bcrypt from "bcryptjs";
 import config from "../../config";
 import { prisma } from "../../lib/prisma";
-import { createUserPayload } from "./user.interface";
-
-
+import { createUserPayload } from "./user.interface"
 
 const createUsersDb = async (payload: createUserPayload) => {
     const { name, email, password, profilePhoto } = payload
@@ -23,15 +21,14 @@ const createUsersDb = async (payload: createUserPayload) => {
             name,
             email,
             password: hashPassword,
+            profile: {
+                create: {
+                    profilePhoto,
+                }
+            }
         }
     })
 
-    await prisma.profile.create({
-        data: {
-            userId: createdUser.id,
-            profilePhoto
-        }
-    })
     const user = await prisma.user.findUnique({
         where: {
             id: createdUser.id,
@@ -44,7 +41,6 @@ const createUsersDb = async (payload: createUserPayload) => {
             profile: true
         }
     })
-
     return user
 }
 
